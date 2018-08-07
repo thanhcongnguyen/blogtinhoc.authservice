@@ -1,4 +1,21 @@
 version: '3.3'
 services:
-  postgres:
-    
+  authservice:
+    container_name: blogtinhoc.authservice.nodejs
+    image: blogtinhoc/authservice
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+    volumes:
+      - .:/data/app
+      #- notuseauth:/data/app/node_modules
+    command: nodemon --inspect=0.0.0.0:${DEBUG_CONTAINER_PORT}
+    ports:
+      - '${AUTH_PUBLIC_PORT}:${AUTH_CONTAINER_PORT}'
+      - '${DEBUG_PUBLIC_PORT}:${DEBUG_CONTAINER_PORT}'
+    environment:
+      - NODE_ENV=development
+volumes:
+  db-data-authservice:
+  #notuseauth
